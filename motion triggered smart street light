@@ -1,0 +1,38 @@
+
+const int LDR_PIN = A0;     
+const int LED_PIN = 13;
+// set ultrasonic sensor echo and trigger pins
+const int trigger=10; 
+const int echo=9;
+
+int lightthreshold = 500; 
+int proximitythreshold=150;
+
+void setup() {
+  Serial.begin(9600);
+  pinMode(LED_PIN, OUTPUT);
+  pinMode(trigger,OUTPUT);
+  pinMode(echo,INPUT);
+  pinMode(LDR_PIN,INPUT);
+}
+
+void loop() {
+  int ldrValue = analogRead(LDR_PIN);  // Read the LDR value (0–1023)
+
+  digitalWrite(trigger,LOW);
+  delayMicroseconds(10);
+  digitalWrite(trigger,HIGH);
+  delayMicroseconds(10);
+  digitalWrite(trigger,LOW);
+
+  long duration = pulseIn(echo,HIGH,30000);
+  int distance=0.5*duration*0.034;
+
+  if (ldrValue < lightthreshold && distance<proximitythreshold) {
+    digitalWrite(LED_PIN, HIGH);   // Turn LED ON
+  } else {
+    digitalWrite(LED_PIN, LOW);    // Turn LED OFF
+  }
+
+  delay(100);  // Small delay for stability
+}
