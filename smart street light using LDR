@@ -1,0 +1,26 @@
+
+const int LDR_PIN = A0;     
+const int LED_PIN = 13;    
+
+int threshold = 500;        
+
+void setup() {
+  Serial.begin(9600);
+  pinMode(LED_PIN, OUTPUT);
+  pinMode(LDR_PIN,INPUT);
+}
+
+void loop() {
+  int ldrValue = analogRead(LDR_PIN);  // Read the LDR value (0–1023)
+
+  Serial.print("LDR Value: ");
+  Serial.println(ldrValue);
+
+  if (ldrValue < threshold) {
+    digitalWrite(LED_PIN, HIGH);   // Turn LED ON
+  } else {
+    digitalWrite(LED_PIN, LOW);    // Turn LED OFF
+  }
+
+  delay(100);  // Small delay for stability
+}
